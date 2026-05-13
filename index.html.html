@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UT Sandwich Checklist</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f3ee;
+    --surface: #ffffff;
+    --border: #dddbd5;
+    --text: #1a1917;
+    --muted: #7a7874;
+    --accent: #1a1917;
+    --success: #2d6a4f;
+    --success-bg: #d8f3dc;
+    --done-text: #a0a09a;
+    --section-color: #9a9890;
+  }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  header {
+    margin-bottom: 2rem;
+    border-bottom: 1.5px solid var(--text);
+    padding-bottom: 1.25rem;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--text);
+    color: var(--bg);
+    padding: 3px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 0.75rem;
+  }
+
+  .bar-bg {
+    flex: 1;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.25s ease;
+    width: 0%;
+  }
+
+  .pct {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    min-width: 40px;
+    text-align: right;
+  }
+
+  .reset-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .reset-btn:hover { color: var(--text); }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--section-color);
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s;
+    user-select: none;
+  }
+
+  .item:hover { border-color: #bbb9b2; }
+
+  .item.done {
+    background: #fafaf8;
+    border-color: #e8e6e0;
+  }
+
+  .check {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  .item.done .check {
+    background: var(--success);
+    border-color: var(--success);
+  }
+
+  .check svg {
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+
+  .item.done .check svg { opacity: 1; }
+
+  .text { flex: 1; }
+
+  .label {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text);
+    transition: color 0.15s;
+  }
+
+  .item.done .label {
+    text-decoration: line-through;
+    color: var(--done-text);
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.5;
+  }
+
+  .item.done .note { color: #c0bfba; }
+
+  .complete-banner {
+    display: none;
+    margin-top: 1.5rem;
+    padding: 12px 16px;
+    background: var(--success-bg);
+    border: 1px solid #b7e4c7;
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--success);
+    text-align: center;
+  }
+
+  .complete-banner.show { display: block; }
+
+  footer {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--section-color);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="header-top">
+      <h1>UT Sandwich Checklist</h1>
+      <span class="badge" id="badge">0 / 0</span>
+    </div>
+
+    <div class="progress-row">
+      <div class="bar-bg"><div class="bar-fill" id="bar"></div></div>
+      <span class="pct" id="pct">0%</span>
+      <button class="reset-btn" onclick="resetAll()">Reset</button>
+    </div>
+  </header>
+
+  <div id="list"></div>
+  <div class="complete-banner" id="banner">✓ All steps complete — unit ready</div>
+
+
+</div>
+
+<script>
+const steps = [
+  { section: "Prep" },
+  { label: "Confirm thermal padding on heatsink", note: "All pads 2mm thick — except pad #8 from pad punch (1.5mm)" },
+  { label: "Remove PBT and SOMCB from UT" },
+  { label: "Spread thermal paste onto SOM components" },
+  { section: "Assembly" },
+  { label: "Place UT board on top of heatsink", note: "Use alignment pins" },
+  { label: "Add pre-loader on top", note: "Secure with spring and button head screw" },
+  { label: "Add thermal padding where PBT sits" },
+  { label: "Clamp down PBT", note: "Compress thermal padding — ensure proper connection" },
+  { label: "Put back SOMCB" },
+  { section: "Fastening" },
+  { label: "Add shoulder screws and springs to hold down PBT", note: "Front arm → button head screw at F position · Rear arm → button head screw at R position" },
+  { label: "Apply Loctite to all screws", note: "Easy on the Loctite — a little goes a long way. Torque according to assembly drawing." },
+  { section: "SSD" },
+  { label: "Confirm SSD connection" },
+  { label: "Copper foil SSD" },
+  { label: "Reinstall SSD cover", note: "Rev A heatsink: bottom two mounting holes may be left unfastened if threads are stripped" },
+];
+
+const list = document.getElementById('list');
+const bar = document.getElementById('bar');
+const pctEl = document.getElementById('pct');
+const badge = document.getElementById('badge');
+const banner = document.getElementById('banner');
+const items = [];
+
+const checkSVG = `<svg width="11" height="9" viewBox="0 0 11 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+steps.forEach(s => {
+  if (s.section) {
+    const d = document.createElement('div');
+    d.className = 'section-label';
+    d.textContent = s.section;
+    list.appendChild(d);
+    return;
+  }
+  const div = document.createElement('div');
+  div.className = 'item';
+  div.innerHTML = `<div class="check">${checkSVG}</div><div class="text"><div class="label">${s.label}</div>${s.note ? `<div class="note">${s.note}</div>` : ''}</div>`;
+  div.addEventListener('click', () => { div.classList.toggle('done'); update(); });
+  list.appendChild(div);
+  items.push(div);
+});
+
+function update() {
+  const done = items.filter(i => i.classList.contains('done')).length;
+  const total = items.length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  bar.style.width = pct + '%';
+  pctEl.textContent = pct + '%';
+  badge.textContent = done + ' / ' + total;
+  banner.classList.toggle('show', done === total);
+}
+
+function resetAll() {
+  items.forEach(i => i.classList.remove('done'));
+  update();
+}
+
+update();
+</script>
+</body>
+</html>
