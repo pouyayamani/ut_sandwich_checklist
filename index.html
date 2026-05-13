@@ -30,10 +30,7 @@
     padding: 2rem 1rem;
   }
 
-  .container {
-    max-width: 600px;
-    margin: 0 auto;
-  }
+  .container { max-width: 600px; margin: 0 auto; }
 
   header {
     margin-bottom: 2rem;
@@ -136,11 +133,7 @@
   }
 
   .item:hover { border-color: #bbb9b2; }
-
-  .item.done {
-    background: #fafaf8;
-    border-color: #e8e6e0;
-  }
+  .item.done { background: #fafaf8; border-color: #e8e6e0; }
 
   .check {
     width: 18px;
@@ -155,18 +148,9 @@
     transition: background 0.15s, border-color 0.15s;
   }
 
-  .item.done .check {
-    background: var(--success);
-    border-color: var(--success);
-  }
-
-  .check svg {
-    opacity: 0;
-    transition: opacity 0.1s;
-  }
-
+  .item.done .check { background: var(--success); border-color: var(--success); }
+  .check svg { opacity: 0; transition: opacity 0.1s; }
   .item.done .check svg { opacity: 1; }
-
   .text { flex: 1; }
 
   .label {
@@ -176,10 +160,7 @@
     transition: color 0.15s;
   }
 
-  .item.done .label {
-    text-decoration: line-through;
-    color: var(--done-text);
-  }
+  .item.done .label { text-decoration: line-through; color: var(--done-text); }
 
   .note {
     font-size: 12px;
@@ -204,16 +185,6 @@
   }
 
   .complete-banner.show { display: block; }
-
-  footer {
-    margin-top: 2.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--section-color);
-    text-align: center;
-  }
 </style>
 </head>
 <body>
@@ -223,7 +194,6 @@
       <h1>UT Sandwich Checklist</h1>
       <span class="badge" id="badge">0 / 0</span>
     </div>
-
     <div class="progress-row">
       <div class="bar-bg"><div class="bar-fill" id="bar"></div></div>
       <span class="pct" id="pct">0%</span>
@@ -233,8 +203,6 @@
 
   <div id="list"></div>
   <div class="complete-banner" id="banner">✓ All steps complete — unit ready</div>
-
-
 </div>
 
 <script>
@@ -250,7 +218,8 @@ const steps = [
   { label: "Clamp down PBT", note: "Compress thermal padding — ensure proper connection" },
   { label: "Put back SOMCB" },
   { section: "Fastening" },
-  { label: "Add shoulder screws and springs to hold down PBT", note: "Front arm → button head screw at F position · Rear arm → button head screw at R position" },
+  { label: "Add shoulder screws and springs to hold down PBT" },
+  { label: "Front arm → button head screw at F position · Rear arm → button head screw at R position" },
   { label: "Apply Loctite to all screws", note: "Easy on the Loctite — a little goes a long way. Torque according to assembly drawing." },
   { section: "SSD" },
   { label: "Confirm SSD connection" },
