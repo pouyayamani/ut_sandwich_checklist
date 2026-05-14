@@ -208,10 +208,14 @@
 <script>
 const steps = [
   { section: "Prep" },
+  { label: "Double check PBT mounting threads on heatsink before proceeding", note: "Verify threads are functional — especially the known high-risk hole" },
   { label: "Confirm thermal padding on heatsink", note: "All pads 2mm thick — except pad #8 from pad punch (1.5mm)" },
   { label: "Remove PBT and SOMCB from UT" },
   { label: "Spread thermal paste onto SOM components" },
+  { label: "Verify solder joints are good and R89 (GTX) modification has been completed" },
+  { label: "Blow air to the board and connectors", note: "Remove dust and metal shavings" },
   { section: "Assembly" },
+  { label: "Print and apply unit label to heatsink" },
   { label: "Place UT board on top of heatsink", note: "Use alignment pins" },
   { label: "Add pre-loader on top", note: "Secure with spring and button head screw" },
   { label: "Add thermal padding where PBT sits" },
